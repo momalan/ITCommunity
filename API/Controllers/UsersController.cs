@@ -18,7 +18,7 @@ public class UsersController(DataContext context) : BaseApiController
         return users;
     }
 
-    [Authorize]
+    [AllowAnonymous]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {
