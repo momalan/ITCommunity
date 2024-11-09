@@ -15,7 +15,8 @@ export class RegisterComponent {
   private toastr = inject(ToastrService);
   usersFromHome = input<any>();
   cancelRegister = output<boolean>();
-  model: any = {}
+  validationErrors: string[] = [];
+  model: any = {};
 
   register() {
     this.accService.register(this.model).subscribe({
@@ -23,7 +24,10 @@ export class RegisterComponent {
         console.log(response);
         this.cancel();
       },
-      error: error => this.toastr.error(error.error)
+      error: error => {
+        console.log(error);
+        this.validationErrors = error;
+      }
     })
   }
 

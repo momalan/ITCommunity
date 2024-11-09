@@ -3,6 +3,7 @@ using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,22 @@ public class AccountController(DataContext context, ITokenService tokenService) 
     public async Task<ActionResult<UserDto>> Register(RegisterDto dto)
     {
         if(await UserExists(dto.Username)) return BadRequest("Username already exists.");
-        using var hmac = new HMACSHA512();
+       using var hmac = new HMACSHA512();
 
         var user = new AppUser
         {
             UserName = dto.Username.ToLower(),
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password)),
-            PasswordSalt = hmac.Key
+            PasswordSalt = hmac.Key,
+            City = "Maribor",
+            Country = "Slovenia",
+            Gender = "Male",
+            KnownAs = "Muki",
+            Created = DateTime.UtcNow,
+            DateOfBirth = new DateOnly(1993,07,31),
+            LastActive = DateTime.UtcNow,
+            Photos = new List<Photo>(),
+            Introduction = ""
         };
 
         context.Users.Add(user);

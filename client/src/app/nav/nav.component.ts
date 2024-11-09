@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavComponent {
   accService = inject(AccountService);
+
   private router = inject(Router);
   private toastr = inject(ToastrService);
   usernameDisplay: any;
